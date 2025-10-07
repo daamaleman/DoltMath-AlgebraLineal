@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}DoltMath — Álgebra Lineal{% endblock %}</title>
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      window.tailwind = window.tailwind || {};
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#fff1f0",
+                100: "#ffe1de",
+                200: "#ffc8bd",
+                300: "#ffa08f",
+                400: "#ff7054",
+                500: "#ef4444",
+                600: "#dc2626",
+                700: "#b91c1c",
+                800: "#991b1b",
+                900: "#7f1d1d",
+              },
+              ember: {
+                50: "#fff7ed",
+                100: "#ffedd5",
+                200: "#fed7aa",
+                300: "#fdba74",
+                400: "#fb923c",
+                500: "#f97316",
+                600: "#ea580c",
+                700: "#c2410c",
+                800: "#9a3412",
+                900: "#7c2d12",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="{% static 'algebra/styles.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="theme-color" content="#ef4444" />
+    <style>
+      /* Page background gradient for a distinct look */
+      body {
+        background: radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(239, 68, 68, 0.14),
+            transparent 50%
+          ),
+          radial-gradient(
+            900px 500px at 120% 10%,
+            rgba(249, 115, 22, 0.14),
+            transparent 40%
+          ),
+          var(--bg);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-900">
+    <header class="w-full sticky top-0 z-20 shadow-sm">
+      <div class="bg-gradient-to-r from-brand-700 via-brand-600 to-ember-500">
+        <div
+          class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+        >
+          <div class="flex items-center gap-2 text-white">
+            <div
+              class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center font-extrabold"
+            >
+              ∑
+            </div>
+            <h1 class="m-0 font-extrabold tracking-tight">
+              DoltMath
+              <small class="ml-2 text-white/80 font-semibold"
+                >Álgebra Lineal</small
+              >
+            </h1>
+          </div>
+          {% with request.resolver_match.url_name as url_name %}
+          <nav class="hidden sm:flex items-center gap-1">
+            <a
+              href="{% url 'index' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'index' %}!bg-white/20{% endif %}"
+              >Inicio</a
+            >
+            <a
+              href="{% url 'suma' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'suma' %}!bg-white/20{% endif %}"
+              >Suma</a
+            >
+            <a
+              href="{% url 'multiplicacion' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'multiplicacion' %}!bg-white/20{% endif %}"
+              >Multiplicación</a
+            >
+            <a
+              href="{% url 'gauss' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'gauss' %}!bg-white/20{% endif %}"
+              >Gauss</a
+            >
+            <a
+              href="{% url 'gauss_jordan' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'gauss_jordan' %}!bg-white/20{% endif %}"
+              >Gauss‑Jordan</a
+            >
+            <a
+              href="{% url 'sistemas' %}"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 {% if url_name == 'sistemas' %}!bg-white/20{% endif %}"
+              >Sistemas</a
+            >
+          </nav>
+          {% endwith %}
+          <div class="relative hidden sm:block">
+            <button
+              id="recentMenuBtn"
+              class="px-3 py-1.5 rounded-full text-white/90 hover:text-white hover:bg-white/10"
+            >
+              Recientes
+            </button>
+            <div
+              id="recentMenuPanel"
+              class="absolute right-0 mt-2 w-80 max-h-96 overflow-auto rounded-xl border border-white/10 bg-white text-slate-900 shadow-lg hidden"
+            >
+              <div class="p-2 border-b text-slate-700/80 text-sm font-semibold">
+                Recientes
+              </div>
+              <div id="recentMenuList" class="divide-y divide-slate-100"></div>
+              <div class="p-2 border-t border-slate-100 flex justify-end">
+                <button
+                  id="clearRecentsBtn"
+                  class="text-red-600 hover:underline text-sm"
+                >
+                  Limpiar historial
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            id="themeToggle"
+            class="icon-btn text-white/90 hover:bg-white/10 border-white/20"
+            aria-label="Cambiar tema"
+            title="Cambiar tema"
+          >
+            🌙
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="container container-narrow max-w-6xl mx-auto px-4">
+      {% block content %}{% endblock %}
+    </main>
+    <div id="keypad" class="keypad hidden"></div>
+    <button id="keypadToggle" class="fab" aria-label="Mostrar teclado">
+      ⌨
+    </button>
+    <script src="{% static 'algebra/app.js' %}"></script>
+  </body>
+</html>

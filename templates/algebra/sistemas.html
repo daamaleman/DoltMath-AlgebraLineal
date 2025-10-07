@@ -1,0 +1,321 @@
+{% extends "algebra/base.html" %} 
+
+{% block content %}
+<h2>Sistemas de Ecuaciones y Dependencia Lineal</h2>
+
+<!-- Formulario: Sistemas Ax=b / Ax=0 -->
+<form method="post" class="matrix-form" data-mode="aug">
+  {% csrf_token %}
+  <input type="hidden" name="modo" value="sistema" />
+  <div class="panel">
+    <div class="panel-header">
+      <h3 class="panel-title">Sistema Ax = b / Ax = 0</h3>
+      <div class="panel-actions">
+        <span class="badge">A m×n</span>
+        <span class="badge">b m×1</span>
+      </div>
+    </div>
+    <div class="panel-content">
+      <div
+        class="grid"
+        style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px"
+      >
+        <label class="inline">
+          <input type="radio" name="metodo" value="gauss_jordan" checked />
+          Gauss-Jordan
+        </label>
+        <label class="inline">
+          <input type="radio" name="metodo" value="gauss" />
+          Gauss
+        </label>
+        <label class="inline">
+          <input type="checkbox" name="show_steps" checked />
+          Mostrar pasos
+        </label>
+      </div>
+      <div class="controls" style="margin-top: 12px">
+        <div class="control">
+          <label>Filas (m)</label>
+          <input type="number" min="1" value="2" data-target="rows" />
+        </div>
+        <div class="control">
+          <label>Columnas (n)</label>
+          <input type="number" min="1" value="2" data-target="cols" />
+        </div>
+        <label class="inline">
+          <input type="checkbox" id="homogCheck" />
+          Homogéneo (b = 0)
+        </label>
+        <button type="button" class="btn" data-action="resize">
+          Actualizar tamaño
+        </button>
+      </div>
+      <div class="matrix-aug panel">
+        <div>
+          <label>Matriz A</label>
+          <div class="matrix" data-name="matrizA"></div>
+        </div>
+        <div class="aug-bar">|</div>
+        <div>
+          <label>Vector b</label>
+          <div class="matrix" data-name="vectorB" data-cols="1"></div>
+        </div>
+        <input type="hidden" name="matrizA" />
+        <input type="hidden" name="vectorB" />
+        <input type="hidden" name="matrizAug" />
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn primary">Analizar sistema</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Formulario: Dependencia / Independencia -->
+<form
+  method="post"
+  class="matrix-form"
+  data-mode="aug"
+  style="margin-top: 16px"
+>
+  {% csrf_token %}
+  <input type="hidden" name="modo" value="dependencia" />
+  <div class="panel">
+    <div class="panel-header">
+      <h3 class="panel-title">Dependencia / Independencia de Vectores</h3>
+      <div class="panel-actions">
+        <span class="badge">Vectores en R^n (columnas de A)</span>
+      </div>
+    </div>
+    <div class="panel-content">
+      <div
+        class="grid"
+        style="grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px"
+      >
+        <label class="inline">
+          <input type="radio" name="metodo" value="gauss_jordan" checked />
+          Gauss-Jordan
+        </label>
+        <label class="inline">
+          <input type="radio" name="metodo" value="gauss" />
+          Gauss
+        </label>
+        <label class="inline">
+          <input type="checkbox" name="show_steps" checked />
+          Mostrar pasos
+        </label>
+      </div>
+      <div class="controls" style="margin-top: 12px">
+        <div class="control">
+          <label>Filas (dimensión n)</label>
+          <input type="number" min="1" value="2" data-target="rows" />
+        </div>
+        <div class="control">
+          <label>Columnas (cantidad de vectores)</label>
+          <input type="number" min="1" value="2" data-target="cols" />
+        </div>
+        <button type="button" class="btn" data-action="resize">
+          Actualizar tamaño
+        </button>
+      </div>
+      <div class="grid matrices panel">
+        <div>
+          <label>Matriz A (vectores como columnas)</label>
+          <div class="matrix" data-name="matrizA"></div>
+          <input type="hidden" name="matrizA" />
+        </div>
+        <div>
+          <label>Vector b (opcional)</label>
+          <div class="matrix" data-name="vectorB" data-cols="1"></div>
+          <input type="hidden" name="vectorB" />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn primary">Analizar dependencia</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% if error %}
+<div class="alert-error">{{ error }}</div>
+{% endif %}
+
+{% if res %}
+<section class="panel">
+  <div class="panel-header">
+    <h3 class="panel-title">Resultado del Sistema</h3>
+    {% if dims %}
+    <div class="panel-actions">
+      {% if dims.A %}
+      <span class="badge">A {{ dims.A }}</span>
+      {% endif %}
+      {% if dims.b %}
+      <span class="badge">b {{ dims.b }}</span>
+      {% endif %}
+      <span class="badge">{{ res.metodo }}</span>
+      <span class="badge">{{ res.forma }}</span>
+    </div>
+    {% endif %}
+  </div>
+  <div class="panel-content">
+    <p>
+      <strong>Clasificación:</strong> {{ res.clasificacion }} · {{
+      res.tipo_solucion }}
+    </div>p>
+
+    <p>
+      x = {% if dep.resultado_homogeneo.parametrica.vectores and
+      dep.resultado_homogeneo.parametrica.vectores|length > 0 %} \sum t_j v_j {%
+      else %} 0 {% endif %}
+    </p>
+  </div>
+  <div class="matrix-result">
+    <table class="matriz">
+      {% for fila in res.R %}
+      <tr>
+        {% for celda in fila %}
+        <td><span>{{ celda }}</span></td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% if res.parametrica and res.tipo_solucion != 'NINGUNA' %}
+  <div class="panel-content">
+    <h4>Conjunto solución (forma paramétrica)</h4>
+    <p>
+      x = x<sub>p</sub>
+      {% if res.parametrica.vectores and res.parametrica.vectores|length > 0 %}
+      + \sum t_j v_j 
+      {% endif %}
+    </p>
+    <p>
+      <strong>x<sub>p</sub> =</strong> [ {{ res.parametrica.particular|join:", "
+      }} ]
+    </p>
+    {% if res.parametrica.vectores and res.parametrica.vectores|length > 0 %}
+    <div>
+      {% for v in res.parametrica.vectores %}
+      <p><strong>v{{ forloop.counter }} =</strong> [ {{ v|join:", " }} ]</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  
+  {% if res.pasos and res.pasos|length > 0 %}
+  <div class="panel-content">
+    <h4>Pasos del procedimiento</h4>
+    <ol class="steps timeline">
+      {% for p in res.pasos %}
+      <li>
+        <div class="step-title">{{ p.operacion }}</div>
+        <div class="step-matrix">
+          <table class="matriz mini">
+            {% for fila in p.matriz %}
+            <tr>
+              {% for celda in fila %}
+              <td><span>{{ celda }}</span></td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+
+{% if dep %}
+<section class="panel">
+  <div class="panel-header">
+    <h3 class="panel-title">Dependencia / Independencia</h3>
+    {% if dims %}
+    <div class="panel-actions">
+      {% if dims.A %}
+      <span class="badge">A {{ dims.A }}</span>
+      {% endif %}
+      
+      {% if dims.b %}
+      <span class="badge">b {{ dims.b }}</span>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="panel-content">
+    <p>
+      <strong>Conclusión:</strong>
+      {% if dep.independientes %} Los vectores son linealmente independientes
+      (solo solución trivial en el sistema homogéneo). {% else %} Los vectores
+      son linealmente dependientes (existen soluciones no triviales en el
+      sistema homogéneo). {% endif %}
+    </p>
+  </div>
+  <div class="panel-content">
+    <h4>Sistema homogéneo A c = 0</h4>
+    <p><em>{{ dep.resultado_homogeneo.interpretacion }}</em></p>
+    <div class="matrix-result">
+      <table class="matriz">
+        {% for fila in dep.resultado_homogeneo.R %}
+        <tr>
+          {% for celda in fila %}
+          <td><span>{{ celda }}</span></td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% if dep.resultado_homogeneo.parametrica and
+    dep.resultado_homogeneo.tipo_solucion != 'NINGUNA' %}
+    <h5>Solución paramétrica (homogéneo)</h5>
+    <p>
+      x = {% if dep.resultado_homogeneo.parametrica.vectores and
+      dep.resultado_homogeneo.parametrica.vectores|length > 0 %}\sum t_j v_j{%
+      else %}0{% endif %}
+    </p>
+    {% endif %}
+  </div>
+
+  {% if dep.resultado_no_homogeneo %}
+  <div class="panel-content">
+    <h4>Sistema no homogéneo A c = b</h4>
+    <p><em>{{ dep.resultado_no_homogeneo.interpretacion }}</em></p>
+    <div class="matrix-result">
+      <table class="matriz">
+        {% for fila in dep.resultado_no_homogeneo.R %}
+        <tr>
+          {% for celda in fila %}
+          <td><span>{{ celda }}</span></td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+<script>
+  // Homogéneo helper: if checked, fill b with zeros in the first form
+  (function () {
+    const form = document.querySelector("form.matrix-form");
+    const homog = document.getElementById("homogCheck");
+    if (form && homog) {
+      homog.addEventListener("change", () => {
+        const bBox = form.querySelector('.matrix[data-name="vectorB"]');
+        if (!bBox) return;
+        const inputs = bBox.querySelectorAll("input");
+        inputs.forEach((i) => (i.value = homog.checked ? "0" : i.value));
+        form.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+    }
+  })();
+</script>
+
+{% endblock %}
