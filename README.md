@@ -1,19 +1,27 @@
 <div align="center">
-	<img src="https://img.shields.io/badge/Django-5.2+-green?logo=django" alt="Django">
-	<img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python">
-	<img src="https://img.shields.io/badge/License-MIT-yellow?logo=license" alt="MIT License">
+    <img src="https://img.shields.io/badge/Django-5.2+-green?logo=django" alt="Django">
+    <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python">
+    <img src="https://img.shields.io/badge/License-MIT-yellow?logo=license" alt="MIT License">
 </div>
 
 # 🧮 DoltMath – Algebra Lineal
 
 <p align="center">
-	<b>Aplicación web para el aprendizaje y resolución de problemas de álgebra lineal.</b><br>
-	<i>Desarrollada con Python + Django</i>
+    <b>Aplicación web para el aprendizaje y resolución de problemas de álgebra lineal.</b><br>
+    <i>Desarrollada con Python + Django</i>
 </p>
 
 <div align="center">
-	<img src="https://img.icons8.com/color/96/000000/matrix.png" alt="Álgebra Lineal"/>
+    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/cover-matrix.png" alt="Álgebra Lineal" width="350"/>
+    <br>
+    <img src="https://img.icons8.com/color/96/000000/matrix.png" alt="Álgebra Lineal"/>
 </div>
+
+<p align="center">
+    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/app-preview.png" alt="Vista previa de la app" width="600"/>
+    <br>
+    <i>Vista previa de la interfaz principal</i>
+</p>
 
 ---
 
@@ -131,20 +139,44 @@
 ## 🧑‍💻 Estructura del proyecto
 
 <details>
-	<summary>Ver estructura</summary>
-
+    <summary>Ver estructura detallada</summary>
+    <br>
+    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/project-structure.png" alt="Estructura del proyecto" width="600"/>
+    <br>
     <pre>
-
 DoltMath-AlgebraLineal/
 │
-├── algebra/ # Aplicación principal
-├── templates/ # Archivos HTML
-├── static/ # Archivos CSS, JS e imágenes
-├── config/ # Configuración global del proyecto
-├── manage.py # Punto de entrada principal
-└── requirements.txt # Dependencias del entorno
-</pre>
-
+├── algebra/                # App principal: lógica, vistas, urls, modelos
+│   ├── logic/              # Funciones matemáticas y utilidades
+│   ├── migrations/         # Migraciones de base de datos
+│   ├── admin.py            # Configuración del admin
+│   ├── models.py           # Modelos de datos
+│   ├── views.py            # Vistas y controladores
+│   └── urls.py             # Rutas de la app
+│
+├── core/                   # App base (usuarios, autenticación, etc.)
+│   ├── migrations/         # Migraciones de base de datos
+│   ├── admin.py            # Configuración del admin
+│   ├── models.py           # Modelos de datos
+│   ├── views.py            # Vistas y controladores
+│   └── apps.py             # Configuración de la app
+│
+├── config/                 # Configuración global del proyecto
+│   ├── settings.py         # Configuración principal
+│   ├── urls.py             # Rutas globales
+│   └── wsgi.py/asgi.py     # Interfaces de servidor
+│
+├── static/                 # Archivos estáticos (CSS, JS, imágenes)
+│   └── algebra/            # Recursos de la app algebra
+│
+├── templates/              # Archivos HTML (vistas)
+│   └── algebra/            # Vistas de la app algebra
+│
+├── manage.py               # Punto de entrada principal
+├── requirements.txt        # Dependencias del entorno
+├── db.sqlite3              # Base de datos por defecto
+└── README.md               # Documentación principal
+    </pre>
 </details>
 
 ---
