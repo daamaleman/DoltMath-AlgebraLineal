@@ -10,19 +10,6 @@
     <b>Aplicación web para el aprendizaje y resolución de problemas de álgebra lineal.</b><br>
     <i>Desarrollada con Python + Django</i>
 </p>
-
-<div align="center">
-    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/cover-matrix.png" alt="Álgebra Lineal" width="350"/>
-    <br>
-    <img src="https://img.icons8.com/color/96/000000/matrix.png" alt="Álgebra Lineal"/>
-</div>
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/app-preview.png" alt="Vista previa de la app" width="600"/>
-    <br>
-    <i>Vista previa de la interfaz principal</i>
-</p>
-
 ---
 
 ## 🚀 Requisitos previos
@@ -141,7 +128,6 @@
 <details>
     <summary>Ver estructura detallada</summary>
     <br>
-    <img src="https://raw.githubusercontent.com/daamaleman/DoltMath-AlgebraLineal/main/static/algebra/project-structure.png" alt="Estructura del proyecto" width="600"/>
     <br>
     <pre>
 DoltMath-AlgebraLineal/
