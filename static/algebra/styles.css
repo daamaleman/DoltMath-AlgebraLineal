@@ -153,9 +153,30 @@ button {
 button:hover {
   opacity: 0.9;
 }
+
+/*Diseño de botones basico (revisar fsize y padding)*/
+
 .btn {
-  background: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, transform 0.08s ease, background-color 0.12s;
+  border: 1px solid transparent;
+  background: var(--btn-bg, var(--primary, #ef4444));
+  color: var(--btn-color, #fff);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
+
+.btn:hover {
+  transform: translateY(-3px)
+}
+
 .btn.primary {
   background: var(--primary);
 }
@@ -536,4 +557,29 @@ button:hover {
   color: #b91c1c;
   border-color: #fecaca;
   background: #fee2e2;
+}
+
+/*Efecto transparente para el header (experimental)*/
+
+@keyframes headerFade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.90;
+  }
+}
+
+@scroll-timeline header-scroll {
+  source: auto;
+  orientation: block;
+  start: 0%;
+  end: 40px;
+}
+
+#headerGradient {
+  animation: headerFade 0.2s;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: header-scroll;
 }
