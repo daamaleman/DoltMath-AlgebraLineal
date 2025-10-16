@@ -19,7 +19,7 @@
     </svg>
   </div>
   <div
-    class="relative max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 items-center"
+    class="relative max-w-6xl mx-auto px-8 py-12 grid md:grid-cols-1 gap-8 items-center"
   >
     <div>
       <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">
@@ -53,11 +53,6 @@
             />
           </svg>
         </a>
-        <a
-          href="{% url 'gauss_jordan' %}"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/40 text-white font-semibold hover:bg-white/10"
-          >Ver Gauss‑Jordan</a
-        >
         <button
           id="btnShowFormats"
           type="button"
@@ -67,61 +62,21 @@
         </button>
       </div>
     </div>
-    <div class="hidden md:block" aria-hidden="true">
-      <div
-        class="rounded-xl bg-white/10 border border-white/20 p-4 shadow-inner"
-      >
-        <div class="text-sm text-white/90 font-mono">Ejemplo A · B</div>
-        <div class="mt-3 grid grid-cols-2 gap-4">
-          <div class="bg-white/10 rounded-lg p-3">
-            <div class="text-xs text-white/80 mb-2">A</div>
-            <div class="grid grid-cols-2 gap-1 text-center">
-              <div class="bg-white/20 rounded">1</div>
-              <div class="bg-white/20 rounded">2</div>
-              <div class="bg-white/20 rounded">3</div>
-              <div class="bg-white/20 rounded">4</div>
-            </div>
-          </div>
-          <div class="bg-white/10 rounded-lg p-3">
-            <div class="text-xs text-white/80 mb-2">B</div>
-            <div class="grid grid-cols-2 gap-1 text-center">
-              <div class="bg-white/20 rounded">5</div>
-              <div class="bg-white/20 rounded">6</div>
-              <div class="bg-white/20 rounded">7</div>
-              <div class="bg-white/20 rounded">8</div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-3 flex gap-2">
-          <button
-            id="copyExampleMul"
-            type="button"
-            class="px-3 py-1.5 rounded-md bg-white text-brand-700 text-sm font-semibold"
-          >
-            Copiar ejemplo
-          </button>
-          <a
-            href="{% url 'multiplicacion' %}"
-            class="px-3 py-1.5 rounded-md border border-white/40 text-white text-sm font-semibold hover:bg-white/10"
-            >Probar multiplicación</a
-          >
-        </div>
-      </div>
-    </div>
   </div>
   <div class="relative border-t border-white/10">
     <div
-      class="max-w-6xl mx-auto px-6 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm"
+      class="max-w-6xl mx-auto px-6 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm justify-center"
+      style="margin-left:auto; margin-right:auto;"
     >
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-amber-300"></span> Precisión con
-        fracciones
+      <div class="flex items-center gap-2 justify-center">
+      <span class="w-2 h-2 rounded-full bg-amber-300"></span> Operaciones precisas con
+      fracciones
       </div>
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-amber-300"></span> Modo oscuro
+      <div class="flex items-center gap-2 justify-center">
+      <span class="w-2 h-2 rounded-full bg-amber-300"></span> Modo oscuro
       </div>
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-amber-300"></span> Teclado flotante
+      <div class="flex items-center gap-2 justify-center">
+      <span class="w-2 h-2 rounded-full bg-amber-300"></span> Teclado flotante
       </div>
     </div>
   </div>
@@ -170,10 +125,10 @@
         <div
           class="w-10 h-10 rounded-lg bg-ember-50 text-ember-700 flex items-center justify-center font-bold"
         >
-          G
+          E
         </div>
         <div>
-          <div class="font-semibold">Gauss</div>
+          <div class="font-semibold">Matriz escalonada</div>
           <div class="text-slate-500 text-sm">A|b → escalonada</div>
         </div>
       </div>
@@ -186,7 +141,7 @@
         <div
           class="w-10 h-10 rounded-lg bg-ember-50 text-ember-700 flex items-center justify-center font-bold"
         >
-          RJ
+          GJ
         </div>
         <div>
           <div class="font-semibold">Gauss‑Jordan</div>
@@ -243,7 +198,7 @@
       <button
         id="copyExampleGauss"
         type="button"
-        class="px-4 py-2 rounded-full border border-slate-200 font-semibold hover:bg-slate-50"
+        class="px-4 py-2 rounded-full bg-brand-500 text-white border-slate-200 font-semibold hover:brightness-110"
       >
         Copiar ejemplo A|b
       </button>
